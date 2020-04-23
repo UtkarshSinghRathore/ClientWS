@@ -1,0 +1,4 @@
+com\Spring\ClientWS\BindingClasses\GetCountryRequest.class
+com\Spring\ClientWS\BindingClasses\Currency.class
+com\Spring\ClientWS\BindingClasses\Country.class
+com\Spring\ClientWS\BindingClasses\GetCountryResponse.class

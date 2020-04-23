@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<style>
+li, a, button {
+	font-family: sans-serif;
+	font-weight: 500;
+	font-size: 16px;
+	color: black;
+	text-decoration: none;
+}
+
+header {
+	background-color: #f7f7f7;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #dddddd;
+}
+
+.nav-links {
+	list-style: none;
+	padding: 0px;
+}
+
+.nav-links li {
+	display: inline-block;
+	padding: 0 20px;
+}
+
+.nav-links li a {
+	transition: all 0.3s ease 0s;
+}
+
+.nav-links li a:hover {
+	color: #0088a9
+}
+
+button:hover {
+	background-color: rgba(0, 136, 169, 0.8);
+}
+
+button {
+	padding: 9px 25px;
+	background-color: rgba(0, 136, 169, 1);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+.column {
+	float: left;
+	width: 50%;
+	margin: 25px 0;
+}
+
+.row {
+	margin: 25px 0;
+}
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#chartContainer {
+	border-radius: 10px 10px 0 0;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	color: #f3f3f3;
+}
+</style>
+<script>
+
+</script>
+<body>
+	<header>
+		<nav>
+			<ul class="nav-links">
+				<li><a href="Dashboard">Dashboard</a>
+				<li><a href=#>API Monitoring</a>
+			</ul>
+		</nav>
+		<a class="cta" href=#><button>Search</button></a>
+	</header>
+	<div class="row">
+		<div class="column">
+			<div id="chartContainer" style="height: 370px; width: 50%;"></div>
+			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+			<p hidden="true" th:text="${UptimePercent}" id="Uptime"></p>
+			<script>
+				var uptime=document.querySelector("#Uptime");
+				var downtime = 100-uptime.innerText;
+				console.log("the text is  "+uptime.innerText);
+				console.log("the text is  "+downtime);
+				window.onload = function () {
+
+					var chart = new CanvasJS.Chart("chartContainer", {
+						animationEnabled: true,
+						title:{
+							text: "Uptime/Downtime",
+							horizontalAlign: "left",
+							fontSize : 20,
+							
+						},
+						data: [{
+							type: "doughnut",
+							explodeOnClick: true,
+							startAngle: 60,
+							innerRadius: 70,
+							indexLabelFontSize: 12,
+							indexLabel: "{label}",
+							
+							radius : "75%",
+							dataPoints: [
+								{ y: downtime, label: "Downtime" },
+								{ y: uptime.innerText, label: "Uptime" },
+								
+							]
+						}]
+					});
+					chart.render();
+
+					}
+			</script>
+
+		</div>
+	</div>
+
+</body>
+</html>

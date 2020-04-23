@@ -1,0 +1,62 @@
+<wsdl:definitions
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:sch="http://www.example.org/loanEligibility"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.example.org/loanEligibility"
+	targetNamespace="http://www.example.org/loanEligibility">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified"
+			targetNamespace="http://www.example.org/loanEligibility">
+			<xsd:element name="CustomerRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="CustomerName" type="xsd:string" />
+						<xsd:element name="Age" type="xsd:int" />
+						<xsd:element name="Salary" type="xsd:int" />
+						<xsd:element name="CibilScore" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Acknowledgement">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="IsEligible" type="xsd:boolean" />
+						<xsd:element name="ApprovedAmount" type="xsd:long" />
+						<xsd:element maxOccurs="unbounded"
+							name="MisMatchCriteria" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="CustomerRequest">
+		<wsdl:part element="tns:CustomerRequest"
+			name="CustomerRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="LoanEligibilty">
+		<wsdl:operation name="Customer">
+			<wsdl:input message="tns:CustomerRequest"
+				name="CustomerRequest">
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="LoanEligibiltySoap11"
+		type="tns:LoanEligibilty">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="Customer">
+			<soap:operation soapAction="" />
+			<wsdl:input name="CustomerRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="LoanEligibiltyService">
+		<wsdl:port binding="tns:LoanEligibiltySoap11"
+			name="LoanEligibiltySoap11">
+			<soap:address location="http://localhost:8080/ws" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

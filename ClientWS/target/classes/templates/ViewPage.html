@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+
+
+.api-links {
+	text-decoration: none;
+	font-family: sans-serif;
+	font-size: 14px;
+	transition: all 0.3s ease 0s;
+	font-weight: normal;
+}
+
+.api-links:hover {
+	color: #0088a9;
+	cursor: pointer;
+}
+
+.column {
+	float: left;
+	width: 50%;
+	margin: 25px 0;
+}
+
+.row {
+	margin: 25px 0;
+}
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+li, a, button {
+	font-family: sans-serif;
+	font-weight: 500;
+	font-size: 16px;
+	color: black;
+	text-decoration: none;
+}
+
+header {
+	background-color: #f7f7f7;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #dddddd;
+}
+
+.nav-links {
+	list-style: none;
+	padding: 0px;
+}
+
+.nav-links li {
+	display: inline-block;
+	padding: 0 20px;
+}
+
+.nav-links li a {
+	transition: all 0.3s ease 0s;
+}
+
+.nav-links li a:hover {
+	color: #0088a9
+}
+
+button {
+	padding: 9px 25px;
+	background-color: rgba(0, 136, 169, 1);
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+button:hover {
+	background-color: rgba(0, 136, 169, 0.8);
+}
+
+.working {
+	color: #0f0;
+}
+
+.not-working {
+	color: #f00;
+}
+
+.Content-Status {
+	border-collapse: collapse;
+	font-size: 0.9em;
+	min-width: 400px;
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	width: 100%;
+}
+
+.Content-Status thead tr {
+	background-color: #009879;
+	color: #ffffff;
+	text-align: left;
+	font-weight: bold;
+}
+
+.Content-Status th, .Content-Status td {
+	padding: 12px 15px;
+}
+
+.Content-Status tbody tr {
+	border-bottom: 1px solid #dddddd;
+}
+
+.Content-Status tbody tr:nth-of-type(even) {
+	background-color: #f3f3f3;
+}
+
+.Content-Status tr:last-of-type {
+	border-bottom: 2px solid #009879;
+}
+</style>
+
+</head>
+<body>
+	<header>
+		<nav>
+			<ul class="nav-links">
+				<li><a href="Dashboard">Dashboard</a>
+				<li><a href=#>API Monitoring</a>
+			</ul>
+		</nav>
+		<a class="cta" href=#><button>Search</button></a>
+	</header>
+	<div class="row">
+
+		<table class="Content-Status">
+			<thead>
+				<tr>
+					<th>S.No</th>
+					<th>API Name</th>
+					<th>Last Up time</th>
+					<th>Last Down Time</th>
+					<th>Status</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td><a class="api-links" href="GetLoanEligibilty">GetLoanEligibilty API</a></td>
+					<td><p th:text="${UptimeAPI1}"></p></td>
+					<td><p th:text="${downtimeAPI1}"></p></td>
+					<td><p class='status-text' th:text="${StatusCodeAPI1}"></p></td>
+
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><a class="api-links" href="#">GetCountryStatus API</a></td>
+					<td><p th:text="${UptimeAPI2}"></p></td>
+					<td><p th:text="${downtimeAPI2}"></p></td>
+					<td><p class='status-text' th:text="${StatusCodeAPI2}"></p></td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><a class="api-links" href="#">HelloWorld RestAPI</a></td>
+					<td><p th:text="${UptimeAPI3}"></p></td>
+					<td><p th:text="${downtimeAPI3}"></p></td>
+					<td><p class='status-text' th:text="${StatusCodeAPI3}"></p></td>
+
+				</tr>
+				
+				<tr>
+					<td>4</td>
+					<td><a class="api-links" href="#">Get Limit Rest Api</a></td>
+					<td><p th:text="${UptimeAPI3}"></p></td>
+					<td><p th:text="${downtimeAPI3}"></p></td>
+					<td><p class='status-text' th:text="${statusCodeGetLimitRestApi}"></p></td>
+
+				</tr>
+				
+				<tr>
+					<td>5</td>
+					<td><a class="api-links" href="#">Create Session Rest Api</a></td>
+					<td><p th:text="${UptimeAPI3}"></p></td>
+					<td><p th:text="${downtimeAPI3}"></p></td>
+					<td><p class='status-text' th:text="${statusCodeGetLimitRestApi}"></p></td>
+
+				</tr>
+
+
+			</tbody>
+		</table>
+		<script>
+				function updateStyling() {
+					var text = document.querySelectorAll('.status-text');
+					for (i = 0; i < text.length; i++) {
+						if (text[i].innerText === '200'
+								|| text[i].innerText === 'Up') {
+							text[i].classList.remove('not-working');
+							text[i].classList.add('working');
+							text[i].innerHTML = 'OK';
+						} else {
+							text[i].classList.remove('working');
+							text[i].classList.add('not-working');
+							text[i].innerText = 'Down'
+						}
+					}
+				}
+
+				const interval = window.setInterval(function() {
+					// toggle the innert text between 200 and 400
+					// const text = document.querySelector('#status-text');
+					// text.innerText = text.innerText === '200' ? '400' : '200';
+
+					// update the styling 
+					updateStyling();
+				}, 500);
+			</script>
+	</div>
+	<div class="row">
+		<div class="column"></div>
+	</div>
+
+
+</body>
+</html>
